@@ -10,8 +10,8 @@ namespace qBank.API.Repository.Interfaces
     {
         Task<ICollection<Question>> GetQuestionsAsync();
         Task<Question> GetQuestionByIdAsync(string questionId);
-        Task InsertQuestionAsync(Question questionId);
-        Task UpdateQuestionAsync(Question questionId);
+        Task InsertQuestionAsync(Question question);
+        Task UpdateQuestionAsync(Question question);
         Task DeleteQuestionAsync(string questionId);
     }
 }
