@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace qBank.API.Data
+namespace qBank.Data.SQLite
 {
     public class SqliteContext : DbContext
     {
