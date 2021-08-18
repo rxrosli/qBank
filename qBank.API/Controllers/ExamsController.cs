@@ -76,7 +76,7 @@ namespace qBank.API.Controllers
             else { return NoContent(); }
         }
 
-        public bool IdExists(string id)
+        protected bool IdExists(string id)
         {
             var exists = false;
             var exam = _examRepository.GetExamByIdAsync(id);
