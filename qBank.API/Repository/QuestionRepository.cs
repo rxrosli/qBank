@@ -11,40 +11,52 @@ namespace qBank.API.Repository
 {
     public class QuestionRepository : IQuestionRepository
     {
-        private readonly SqliteContext _context;
+        private readonly SqliteContext context;
 
         public QuestionRepository(SqliteContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<ICollection<Question>> GetQuestionsAsync()
         {
-            return await _context.Questions.ToListAsync();
+            return await context.Questions.ToListAsync();
         }
 
         public async Task<Question> GetQuestionByIdAsync(string questionId)
         {
-            return await _context.Questions.FindAsync(questionId);
+            return await context.Questions.FindAsync(questionId);
         }
 
         public async Task InsertQuestionAsync(Question question)
         {
-            _context.Questions.Add(question);
-            await _context.SaveChangesAsync();
+            question.QuestionId = Guid.NewGuid().ToString();
+            context.Questions.Add(question);
+            await context.SaveChangesAsync();
         }
 
         public async Task UpdateQuestionAsync(Question question)
         {
-            _context.Questions.Update(question);
-            await _context.SaveChangesAsync();
+            context.Questions.Update(question);
+            await context.SaveChangesAsync();
         }
 
         public async Task DeleteQuestionAsync(string questionId)
         {
-            Question question = await _context.Questions.FindAsync(questionId);
-            _context.Questions.Remove(question);
-            await _context.SaveChangesAsync();
+            Question question = await context.Questions.FindAsync(questionId);
+            context.Questions.Remove(question);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task<List<Question>> GetAllQuestionsByExamId(string examId)
+        {
+            var exam = await context.Exams.FirstAsync(exam => exam.ExamId == examId);
+            var examQuestionIds = exam.Questions.Aggregate(new List<string>(), (ids, examQuestion) => {
+                ids.Add(examQuestion.QuestionId);
+                return ids;
+            });
+            
+            return context.Questions.Where(question => examQuestionIds.Contains(question.QuestionId)).ToList();
         }
     }
 }

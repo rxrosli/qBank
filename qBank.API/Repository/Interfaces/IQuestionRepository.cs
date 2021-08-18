@@ -13,5 +13,6 @@ namespace qBank.API.Repository.Interfaces
         Task InsertQuestionAsync(Question question);
         Task UpdateQuestionAsync(Question question);
         Task DeleteQuestionAsync(string questionId);
+        Task<List<Question>> GetAllQuestionsByExamId(string questionId);
     }
 }
