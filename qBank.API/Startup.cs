@@ -11,6 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using qBank.API.Repository;
+using qBank.API.Repository.Interfaces;
+using qBank.Data.SQLite;
 
 namespace qBank.API
 {
@@ -28,6 +32,9 @@ namespace qBank.API
         {
 
             services.AddControllers();
+            services.AddDbContext<SqliteContext>();
+            services.AddTransient<IQuestionRepository, QuestionRepository>();
+            services.AddTransient<IExamRepository, ExamRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "qBank.API", Version = "v1" });

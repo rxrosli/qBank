@@ -30,6 +30,8 @@ namespace qBank.API.Repository
 
         public async Task InsertExamAsync(Exam exam)
         {
+            var id = Guid.NewGuid();
+            exam.ExamId = id.ToString();
             _context.Exams.Add(exam);
             await _context.SaveChangesAsync();
         }
