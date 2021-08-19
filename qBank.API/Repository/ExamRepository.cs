@@ -11,42 +11,42 @@ namespace qBank.API.Repository
 {
     public class ExamRepository : IExamRepository
     {
-        private readonly SqliteContext _context;
+        private readonly SqliteContext context;
 
         public ExamRepository(SqliteContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public async Task<ICollection<Exam>> GetExamsAsync()
         {
-            return await _context.Exams.ToListAsync();
+            return await context.Exams.ToListAsync();
         }
 
         public async Task<Exam> GetExamByIdAsync(string examId)
         {
-            return await _context.Exams.FindAsync(examId);
+            return await context.Exams.FindAsync(examId);
         }
 
         public async Task InsertExamAsync(Exam exam)
         {
             var id = Guid.NewGuid();
             exam.ExamId = id.ToString();
-            _context.Exams.Add(exam);
-            await _context.SaveChangesAsync();
+            context.Exams.Add(exam);
+            await context.SaveChangesAsync();
         }
 
         public async Task UpdateExamAsync(Exam exam)
         {
-            _context.Exams.Update(exam);
-            await _context.SaveChangesAsync();
+            context.Exams.Update(exam);
+            await context.SaveChangesAsync();
         }
 
         public async Task DeleteExamAsync(string examId)
         {
-             Exam exam = await _context.Exams.FindAsync(examId);
-            _context.Exams.Remove(exam);
-            await _context.SaveChangesAsync();
+             Exam exam = await context.Exams.FindAsync(examId);
+            context.Exams.Remove(exam);
+            await context.SaveChangesAsync();
         }
     }
 }

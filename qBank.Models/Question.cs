@@ -9,9 +9,8 @@ namespace qBank.Models
     {
         public string QuestionId { get; set; }
         public string Statement { get; set; }
-        public virtual ICollection<Truth> Truths { get; set; }
-        public virtual ICollection<Fault> Faults { get; set; }
-        public virtual ICollection<Exam> Exams { get; set; }
+        public List<Truth> Truths { get; set; }
+        public List<Fault> Faults { get; set; }
     }
 
     public class Truth

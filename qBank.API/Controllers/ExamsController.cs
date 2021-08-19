@@ -15,18 +15,21 @@ namespace qBank.API.Controllers
     [Route("api/[controller]")]
     public class ExamsController : ControllerBase
     {
-        private readonly IExamRepository _examRepository;
+        private readonly IExamRepository examRepository;
+        private readonly IQuestionRepository questionRepository;
 
-        public ExamsController(IExamRepository examRepository)
+        public ExamsController(IExamRepository examRepository, IQuestionRepository questionRepository)
         {
-            _examRepository = examRepository;
+            this.examRepository = examRepository;
+            this.questionRepository = questionRepository;
         }
 
         // GET api/exams
+        // TODO: Add pagination
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAll()
         {
-            var exams = await _examRepository.GetExamsAsync();
+            var exams = await examRepository.GetExamsAsync();
             return Ok(exams);
         }
 
@@ -36,10 +39,21 @@ namespace qBank.API.Controllers
         {
             if (IdExists(id))
             {
-                var exam = await _examRepository.GetExamByIdAsync(id);
+                var exam = await examRepository.GetExamByIdAsync(id);
                 return Ok(exam);
             }
             else { return NoContent(); }
+        }
+
+        // GET api/exams/{id}
+        [HttpGet("{id}/questions")]
+        public async Task<IActionResult> GetAllQuestions(string id)
+        {
+            if (!IdExists(id)) return NoContent();
+
+            var questions = await questionRepository.GetAllQuestionsByExamId(id);
+            return Ok(questions);
+        }
 
         }
 
@@ -47,7 +61,7 @@ namespace qBank.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] Exam exam)
         {
-            await _examRepository.InsertExamAsync(exam);
+            await examRepository.InsertExamAsync(exam);
             return Ok();
         }
 
@@ -58,7 +72,7 @@ namespace qBank.API.Controllers
             if (IdExists(id))
             {
                 exam.ExamId = id;
-                await _examRepository.UpdateExamAsync(exam);
+                await examRepository.UpdateExamAsync(exam);
                 return Ok();
             }
             else { return NoContent(); }
@@ -70,7 +84,7 @@ namespace qBank.API.Controllers
         {
             if (IdExists(id))
             {
-                await _examRepository.DeleteExamAsync(id);
+                await examRepository.DeleteExamAsync(id);
                 return Ok();
             }
             else { return NoContent(); }
@@ -79,7 +93,7 @@ namespace qBank.API.Controllers
         protected bool IdExists(string id)
         {
             var exists = false;
-            var exam = _examRepository.GetExamByIdAsync(id);
+            var exam = examRepository.GetExamByIdAsync(id);
             if (exam != null) {exists = true;}
 
             return exists;
