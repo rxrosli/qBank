@@ -15,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using qBank.API.Repository;
 using qBank.API.Repository.Interfaces;
 using qBank.Data.SQLite;
+using AutoMapper;
+using qBank.API.Helpers;
 
 namespace qBank.API
 {
@@ -30,6 +32,13 @@ namespace qBank.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfiles());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
             services.AddControllers().AddNewtonsoftJson();
             services.AddDbContext<SqliteContext>();
             services.AddTransient<IQuestionRepository, QuestionRepository>();

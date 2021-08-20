@@ -23,14 +23,14 @@ namespace qBank.API.Repository
             return await context.Questions.ToListAsync();
         }
 
-        public async Task<Question> GetQuestionByIdAsync(string questionId)
+        public async Task<Question> GetQuestionByIdAsync(string id)
         {
-            return await context.Questions.FindAsync(questionId);
+            return await context.Questions.FindAsync(id);
         }
 
         public async Task InsertQuestionAsync(Question question)
         {
-            question.QuestionId = Guid.NewGuid().ToString();
+            question.Id = Guid.NewGuid().ToString();
             context.Questions.Add(question);
             await context.SaveChangesAsync();
         }
@@ -41,22 +41,22 @@ namespace qBank.API.Repository
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteQuestionAsync(string questionId)
+        public async Task DeleteQuestionAsync(string id)
         {
-            Question question = await context.Questions.FindAsync(questionId);
+            Question question = await context.Questions.FindAsync(id);
             context.Questions.Remove(question);
             await context.SaveChangesAsync();
         }
 
-        public async Task<List<Question>> GetAllQuestionsByExamId(string examId)
+        public async Task<List<Question>> GetAllQuestionsByExamId(string id)
         {
-            var exam = await context.Exams.FirstAsync(exam => exam.ExamId == examId);
+            var exam = await context.Exams.FirstAsync(exam => exam.Id == id);
             var examQuestionIds = exam.Questions.Aggregate(new List<string>(), (ids, examQuestion) => {
-                ids.Add(examQuestion.QuestionId);
+                ids.Add(examQuestion.Id);
                 return ids;
             });
             
-            return context.Questions.Where(question => examQuestionIds.Contains(question.QuestionId)).ToList();
+            return context.Questions.Where(question => examQuestionIds.Contains(question.Id)).ToList();
         }
     }
 }

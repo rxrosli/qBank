@@ -10,6 +10,7 @@ namespace qBank.Data.SQLite
     public class SqliteContext : DbContext
     {
         public DbSet<Question> Questions { get; set; }
+        public DbSet<Statement> Statements { get; set; }
         public DbSet<Exam> Exams { get; set; }
 
         public string DbPath { get; private set; }

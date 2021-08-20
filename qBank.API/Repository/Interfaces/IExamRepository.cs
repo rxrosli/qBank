@@ -9,9 +9,9 @@ namespace qBank.API.Repository.Interfaces
     public interface IExamRepository
     {
         Task<ICollection<Exam>> GetExamsAsync();
-        Task<Exam> GetExamByIdAsync(string examId);
+        Task<Exam> GetExamByIdAsync(string id);
         Task InsertExamAsync(Exam exam);
         Task UpdateExamAsync(Exam exam);
-        Task DeleteExamAsync(string examId);
+        Task DeleteExamAsync(string id);
     }
 }
