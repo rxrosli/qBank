@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace qBank.Models
 {
     public class Question
     {
-        public string QuestionId { get; set; }
-        public string Statement { get; set; }
-        public List<Truth> Truths { get; set; }
-        public List<Fault> Faults { get; set; }
+        public string Id { get; set; }
+        public string Query { get; set; }
+        public List<Statement> Statements { get; set; }
+
+        [JsonIgnore]
+        public List<Exam> Exams { get; set; }
     }
 
-    public class Truth
+    public class Statement
     {
-        public string TruthId { get; set; }
-        public string Value { get; set; }
-    }
-
-    public class Fault
-    {
-        public string FaultId { get; set; }
+        public string Id { get; set; }
+        public bool IsTrue { get; set; }
         public string Value { get; set; }
     }
 }

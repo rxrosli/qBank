@@ -9,10 +9,10 @@ namespace qBank.API.Repository.Interfaces
     public interface IQuestionRepository
     {
         Task<ICollection<Question>> GetQuestionsAsync();
-        Task<Question> GetQuestionByIdAsync(string questionId);
+        Task<Question> GetQuestionByIdAsync(string id);
         Task InsertQuestionAsync(Question question);
         Task UpdateQuestionAsync(Question question);
-        Task DeleteQuestionAsync(string questionId);
-        Task<List<Question>> GetAllQuestionsByExamId(string questionId);
+        Task DeleteQuestionAsync(string id);
+        Task<List<Question>> GetAllQuestionsByExamId(string id);
     }
 }

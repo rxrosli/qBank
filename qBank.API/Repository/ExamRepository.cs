@@ -23,15 +23,15 @@ namespace qBank.API.Repository
             return await context.Exams.ToListAsync();
         }
 
-        public async Task<Exam> GetExamByIdAsync(string examId)
+        public async Task<Exam> GetExamByIdAsync(string id)
         {
-            return await context.Exams.FindAsync(examId);
+            return await context.Exams.FindAsync(id);
         }
 
         public async Task InsertExamAsync(Exam exam)
         {
             var id = Guid.NewGuid();
-            exam.ExamId = id.ToString();
+            exam.Id = id.ToString();
             context.Exams.Add(exam);
             await context.SaveChangesAsync();
         }
@@ -42,9 +42,9 @@ namespace qBank.API.Repository
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteExamAsync(string examId)
+        public async Task DeleteExamAsync(string id)
         {
-             Exam exam = await context.Exams.FindAsync(examId);
+             Exam exam = await context.Exams.FindAsync(id);
             context.Exams.Remove(exam);
             await context.SaveChangesAsync();
         }

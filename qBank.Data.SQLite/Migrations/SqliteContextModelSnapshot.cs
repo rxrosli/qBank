@@ -17,22 +17,22 @@ namespace qBank.Data.SQLite.Migrations
 
             modelBuilder.Entity("ExamQuestion", b =>
                 {
-                    b.Property<string>("ExamsExamId")
+                    b.Property<string>("ExamsId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("QuestionsQuestionId")
+                    b.Property<string>("QuestionsId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ExamsExamId", "QuestionsQuestionId");
+                    b.HasKey("ExamsId", "QuestionsId");
 
-                    b.HasIndex("QuestionsQuestionId");
+                    b.HasIndex("QuestionsId");
 
                     b.ToTable("ExamQuestion");
                 });
 
             modelBuilder.Entity("qBank.Models.Exam", b =>
                 {
-                    b.Property<string>("ExamId")
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
@@ -41,46 +41,31 @@ namespace qBank.Data.SQLite.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ExamId");
+                    b.HasKey("Id");
 
                     b.ToTable("Exams");
                 });
 
-            modelBuilder.Entity("qBank.Models.Fault", b =>
-                {
-                    b.Property<string>("FaultId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("QuestionId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("FaultId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("Fault");
-                });
-
             modelBuilder.Entity("qBank.Models.Question", b =>
                 {
-                    b.Property<string>("QuestionId")
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Statement")
+                    b.Property<string>("Query")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("QuestionId");
+                    b.HasKey("Id");
 
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("qBank.Models.Truth", b =>
+            modelBuilder.Entity("qBank.Models.Statement", b =>
                 {
-                    b.Property<string>("TruthId")
+                    b.Property<string>("Id")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsTrue")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("QuestionId")
                         .HasColumnType("TEXT");
@@ -88,47 +73,38 @@ namespace qBank.Data.SQLite.Migrations
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("TruthId");
+                    b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Truth");
+                    b.ToTable("Statements");
                 });
 
             modelBuilder.Entity("ExamQuestion", b =>
                 {
                     b.HasOne("qBank.Models.Exam", null)
                         .WithMany()
-                        .HasForeignKey("ExamsExamId")
+                        .HasForeignKey("ExamsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("qBank.Models.Question", null)
                         .WithMany()
-                        .HasForeignKey("QuestionsQuestionId")
+                        .HasForeignKey("QuestionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("qBank.Models.Fault", b =>
+            modelBuilder.Entity("qBank.Models.Statement", b =>
                 {
                     b.HasOne("qBank.Models.Question", null)
-                        .WithMany("Faults")
-                        .HasForeignKey("QuestionId");
-                });
-
-            modelBuilder.Entity("qBank.Models.Truth", b =>
-                {
-                    b.HasOne("qBank.Models.Question", null)
-                        .WithMany("Truths")
+                        .WithMany("Statements")
                         .HasForeignKey("QuestionId");
                 });
 
             modelBuilder.Entity("qBank.Models.Question", b =>
                 {
-                    b.Navigation("Faults");
-
-                    b.Navigation("Truths");
+                    b.Navigation("Statements");
                 });
 #pragma warning restore 612, 618
         }
